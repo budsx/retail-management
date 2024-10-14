@@ -1,0 +1,13 @@
+app:
+  name: 'github.com/budsx/retail-management'
+  version: '1.0.0'
+
+http:
+  port: '8080'
+
+logger:
+  log_level: 'info'
+  rollbar_env: 'go-clean-template'
+
+postgres:
+  pool_max: 2
