@@ -13,9 +13,13 @@ import (
 
 type PostgresRepository interface {
 	ReadProductByID(context.Context, int64) (model.Product, error)
-	ReadProductsWithPagination(ctx context.Context, limit int32, offset int32) ([]model.Product, error)
+	ReadProductsWithPagination(context.Context, int32, int32) ([]model.Product, error)
 	UpdateProductByID(context.Context, model.Product) error
 	WriteProduct(context.Context, model.Product) error
+
+	// User
+	RegisterUser(context.Context, model.User) error
+	GetUserByUsername(ctx context.Context, username string) (model.User, error)
 	io.Closer
 }
 

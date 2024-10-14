@@ -11,12 +11,15 @@ import (
 type RetailManagementService interface {
 	GetProductByID(context.Context, int64) (model.Product, error)
 	GetProducts(context.Context, model.Pagination) ([]model.Product, error)
-	AddProduct(context.Context, model.Product) (error)
+	AddProduct(context.Context, model.Product) error
 	EditProduct(context.Context, model.Product) error
+
+	RegisterUser(context.Context, model.User) error
+	ValidateUser(context.Context, model.Credentials) (model.User, error)
 }
 
 type Service struct {
-	repo repository.Repository
+	repo   repository.Repository
 	logger utils.Interface
 }
 

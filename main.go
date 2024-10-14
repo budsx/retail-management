@@ -7,6 +7,7 @@ import (
 
 	"github.com/budsx/retail-management/config"
 	"github.com/budsx/retail-management/controller"
+	"github.com/budsx/retail-management/middleware"
 	"github.com/budsx/retail-management/repository"
 	"github.com/budsx/retail-management/services"
 	"github.com/budsx/retail-management/utils"
@@ -20,7 +21,6 @@ func main() {
 	}
 
 	logger := utils.NewLogger(conf.Log.Level)
-
 	repoConf := repository.RepoConfig{
 		DBConfig: repository.DBConfig{
 			Host:     conf.DBHost,
@@ -29,7 +29,6 @@ func main() {
 			DBName:   conf.DBName,
 		},
 	}
-
 	repo, err := repository.NewRetailManagementRepository(repoConf)
 	if err != nil {
 		log.Println(err.Error())
@@ -42,14 +41,26 @@ func main() {
 
 	r := mux.NewRouter()
 
-	// Health Check
+	// Health Check & Readiness
 	r.HandleFunc("/health", controller.Health)
+	r.HandleFunc("/readinees", func(w http.ResponseWriter, r *http.Request) {
+		// TODO:
+	})
+
+	// User
+	r.HandleFunc("/register", controller.RegisterUser).Methods("POST")
+	r.HandleFunc("/login", controller.Login).Methods("POST")
+	r.Handle("/validate-token", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.ValidateToken))).Methods("GET")
 
 	// Product
 	r.HandleFunc("/product/{id}", controller.GetProductByID).Methods("GET")
 	r.HandleFunc("/products", controller.GetProducts).Methods("GET")
-	r.HandleFunc("/product", controller.AddProduct).Methods("POST")           // Menambahkan produk baru
-	r.HandleFunc("/product/{id}", controller.EditProduct).Methods("PUT")  
+	r.HandleFunc("/product", controller.AddProduct).Methods("POST")
+	r.HandleFunc("/product/{id}", controller.EditProduct).Methods("PUT")
+
+	// TODO:
+	// Stock Inventory Management
+
 
 	// Run Server
 	srv := &http.Server{

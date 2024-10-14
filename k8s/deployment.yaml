@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-management
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: retail-management
+  template:
+    metadata:
+      labels:
+        app: retail-management
+    spec:
+      containers:
+      - name: retail-management
+        image: registry.digitalocean.com/do-container/retail-management:latest
+        ports:
+        - containerPort: 9999
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9999
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 9999
+          initialDelaySeconds: 5
+          periodSeconds: 10
