@@ -7,11 +7,17 @@ import (
 )
 
 type RetailManagementController interface {
+	// Health Check
+	Health(w http.ResponseWriter, r *http.Request)
+	// Users
+
 	// Product
 	GetProductByID(w http.ResponseWriter, r *http.Request)
+	GetProducts(w http.ResponseWriter, r *http.Request)
+	EditProduct(w http.ResponseWriter, r *http.Request)
+	AddProduct(w http.ResponseWriter, r *http.Request)
 
-	// Stock
-	GetStock(w http.ResponseWriter, r *http.Request)
+	// Transaction
 }
 
 type Controller struct {
@@ -22,10 +28,6 @@ func NewRetailManagementController(service services.RetailManagementService) *Co
 	return &Controller{service: service}
 }
 
-func (c *Controller) GetProductByID(w http.ResponseWriter, r *http.Request) {
-	return
-}
-
-func (c *Controller) GetStock(w http.ResponseWriter, r *http.Request) {
-	return
+func (c *Controller) Health(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
 }

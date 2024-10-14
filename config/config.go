@@ -29,7 +29,10 @@ type (
 
 	PG struct {
 		PoolMax int    `env-required:"true" yaml:"pool_max" env:"PG_POOL_MAX"`
-		URL     string `env-required:"true"                 env:"PG_URL"`
+		DBHost  string `env-required:"true" yaml:"db_host" env:"DB_HOST"`
+		DBUser  string `env-required:"true" yaml:"db_user" env:"DB_USER"`
+		DBPass  string `env-required:"true" yaml:"db_pass" env:"DB_PASS"`
+		DBName  string `env-required:"true" yaml:"db_name" env:"DB_NAME"`
 	}
 )
 

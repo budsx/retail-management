@@ -1,13 +1,21 @@
 package postgres
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"io"
 	"time"
+
+	"github.com/budsx/retail-management/model"
+	_ "github.com/lib/pq"
 )
 
 type PostgresRepository interface {
+	ReadProductByID(context.Context, int64) (model.Product, error)
+	ReadProductsWithPagination(ctx context.Context, limit int32, offset int32) ([]model.Product, error)
+	UpdateProductByID(context.Context, model.Product) error
+	WriteProduct(context.Context, model.Product) error
 	io.Closer
 }
 
@@ -16,7 +24,7 @@ type dbReadWriter struct {
 }
 
 func NewPostgres(Host, User, Password, DBName string) (PostgresRepository, error) {
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Host, 0000, User, Password, DBName)
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Host, 5432, User, Password, DBName)
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
