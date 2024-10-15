@@ -9,12 +9,12 @@ import (
 )
 
 func (svc *Service) AddLocation(ctx context.Context, location model.Location) error {
-	svc.logger.Info(fmt.Sprintf("[REQUEST] Add new location: %+v", location))
-
-	userID := ctx.Value(middleware.ContextKeyUserID).(int64)
+	user := middleware.GetUserInfoByContext(ctx)
+	
+	svc.logger.Info(fmt.Sprintf("[REQUEST] Add new location: %+v - %+v", location, user))
 
 	warehouse, err := svc.repo.Postgres.ReadWarehouseByID(ctx, location.WarehouseID)
-	if err != nil || warehouse.UserID != userID {
+	if err != nil || warehouse.UserID != user.UserID {
 		svc.logger.Error("[ERROR] Unauthorized or warehouse not found")
 		return fmt.Errorf("unauthorized or warehouse not found")
 	}

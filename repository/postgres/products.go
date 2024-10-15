@@ -36,7 +36,7 @@ func (rw *dbReadWriter) ReadProductByID(ctx context.Context, req int64) (model.P
 
 func (rw *dbReadWriter) ReadProductsWithPagination(ctx context.Context, limit int32, offset int32) ([]model.Product, error) {
 	selectProductsWithPagination := `SELECT product_id, product_name, description, price, sku, created_at, updated_at 
-		FROM mst_product
+		FROM mst_product ORDER BY product_id
 		LIMIT $1 OFFSET $2`
 
 	rows, err := rw.db.QueryContext(ctx, selectProductsWithPagination, limit, offset)
@@ -73,14 +73,13 @@ func (rw *dbReadWriter) ReadProductsWithPagination(ctx context.Context, limit in
 
 func (rw *dbReadWriter) UpdateProductByID(ctx context.Context, product model.Product) error {
 	updateProduct := `UPDATE mst_product 
-		SET product_name = $1, description = $2, price = $3, sku = $4, updated_at = CURRENT_TIMESTAMP 
-		WHERE product_id = $5`
+		SET product_name = $1, description = $2, price = $3, updated_at = CURRENT_TIMESTAMP 
+		WHERE product_id = $4`
 
 	result, err := rw.db.ExecContext(ctx, updateProduct,
 		product.ProductName,
 		product.Description,
 		product.Price,
-		product.SKU,
 		product.ProductID,
 	)
 

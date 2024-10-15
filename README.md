@@ -15,3 +15,10 @@ Retail Management Service
 - **Backend**: Go (Golang)
 - **Database**: Postgres
 - **Containerization**: Docker
+
+# Checklist
+- [√] Handle Log
+- [√] Health Check / Readiness
+- [√] Audit Trail
+- [ ] Migration
+

@@ -2,7 +2,7 @@
 FROM golang:1.20.7-alpine as builder
 
 WORKDIR /app
-
+COPY ./config/config.yml /app/config/config.yml
 COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -mod=vendor -installsuffix cgo -o RetailManagement
@@ -12,4 +12,4 @@ FROM alpine:latest
 
 COPY --from=builder /app/RetailManagement /RetailManagement
 
-ENTRYPOINT [ "/RetailManagement" ]
+ENTRYPOINT ["/RetailManagement"]

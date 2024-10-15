@@ -9,9 +9,8 @@ import (
 )
 
 func (svc *Service) EditLocationByUserID(ctx context.Context, location model.Location) error {
-	svc.logger.Info(fmt.Sprintf("[REQUEST] Edit location: %+v", location))
-
 	userID := ctx.Value(middleware.ContextKeyUserID).(int64)
+	svc.logger.Info(fmt.Sprintf("[REQUEST]  Edit location: %+v - %d", location, userID))
 
 	dbLocation, err := svc.repo.Postgres.ReadLocationByID(ctx, location.LocationID)
 	if err != nil {

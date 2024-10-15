@@ -47,14 +47,14 @@ CREATE TABLE mst_stock (
 );
 
 -- Inventory
-CREATE TABLE trx_inventory (
+CREATE TABLE trx_stock (
     transaction_id SERIAL PRIMARY KEY,
-    product_id INT NOT NULL,               -- Produk yang ditransaksikan
-    warehouse_id INT NOT NULL,             -- Warehouse atau lokasi terkait transaksi
-    transaction_type VARCHAR(50) NOT NULL, -- Tipe transaksi ('addition', 'reduction', 'adjustment')
-    quantity INT NOT NULL,                 -- Jumlah perubahan stok (bisa positif atau negatif)
-    transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Waktu transaksi
-    created_by INT,                        -- User yang membuat transaksi (jika perlu)
+    product_id INT NOT NULL,
+    warehouse_id INT NOT NULL,
+    transaction_type VARCHAR(50) NOT NULL,
+    quantity INT NOT NULL,
+    transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
     FOREIGN KEY (product_id) REFERENCES mst_product(product_id),
     FOREIGN KEY (warehouse_id) REFERENCES mst_warehouse(warehouse_id)
 );

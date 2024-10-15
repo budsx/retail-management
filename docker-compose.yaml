@@ -9,17 +9,18 @@ services:
     ports:
       - "9999:9999"
     environment:
-      - DB_HOST=db
+      - DB_HOST=localhost
       - DB_PORT=5432
       - DB_USER=jubelio
-      - DB_PASSWORD=jubeliotest
+      - DB_PASS=jubeliotest
       - DB_NAME=retails
+      - HTTP_PORT=9999
     networks:
       - mynetwork
 
   db:
     image: postgres:13
-    container_name: postgres-db
+    container_name: postgres_container
     restart: always
     environment:
       POSTGRES_USER: jubelio

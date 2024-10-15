@@ -31,6 +31,11 @@ type PostgresRepository interface {
 	ReadWarehousesByUserID(ctx context.Context, userID int64) ([]model.Warehouse, error)
 	ReadWarehouseByID(ctx context.Context, warehouseID int64) (model.Warehouse, error)
 
+	CreateStockTransaction(context.Context, model.StockTransaction) error
+	GetTotalStockByProductAndWarehouse(context.Context, int64, int64) (int64, error)
+	GetStockTransactions(context.Context, int64) ([]model.StockTransaction, error)
+	GetStockTransactionByID(ctx context.Context, transactionID int64) (model.StockTransaction, error)
+
 	io.Closer
 }
 

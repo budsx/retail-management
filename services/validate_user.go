@@ -10,6 +10,7 @@ import (
 
 func (svc *Service) ValidateUser(ctx context.Context, req model.Credentials) (model.User, error) {
 	svc.logger.Info(fmt.Sprintf("[REQUEST] User validated: %s", req.Username))
+	
 	user, err := svc.repo.Postgres.GetUserByUsername(ctx, req.Username)
 	if err != nil {
 		svc.logger.Error(fmt.Sprintf("[ERROR] Failed to find user: %s", err.Error()))

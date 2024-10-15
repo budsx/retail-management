@@ -52,31 +52,32 @@ func main() {
 	r.Handle("/user/validate", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.ValidateToken))).Methods("GET")
 
 	// Product
-	r.HandleFunc("/product/{id}", controller.GetProductByID).Methods("GET")
-	r.HandleFunc("/product", controller.AddProduct).Methods("POST")
-	r.HandleFunc("/product/{id}", controller.EditProduct).Methods("PUT")
-	r.HandleFunc("/products", controller.GetProducts).Methods("GET")
+	r.Handle("/product/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetProductByID))).Methods("GET")
+	r.Handle("/product", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.AddProduct))).Methods("POST")
+	r.Handle("/product/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditProduct))).Methods("PUT")
+	r.Handle("/products", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetProducts))).Methods("GET")
 
 	// TODO: Warehouse
-	r.HandleFunc("/warehouse", controller.AddWarehouseByUserID).Methods("POST")
-	r.HandleFunc("/warehouse/{id}", controller.EditWarehouseByUserID).Methods("PUT")
-	r.HandleFunc("/warehouses", controller.GetWarehousesByUserID).Methods("GET")
+	r.Handle("/warehouse", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.AddWarehouseByUserID))).Methods("POST")
+	r.Handle("/warehouse/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditWarehouseByUserID))).Methods("PUT")
+	r.Handle("/warehouses", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetWarehousesByUserID))).Methods("GET")
 
 	// TODO: Location
-	r.HandleFunc("/location", controller.AddLocation).Methods("POST")
-	r.HandleFunc("/location/{id}", controller.EditLocationByUserID).Methods("PUT")
-	r.HandleFunc("/location/{id}", controller.DeleteLocationByUserID).Methods("DELETE")
+	r.Handle("/location", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.AddLocation))).Methods("POST")
+	r.Handle("/location/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditLocationByUserID))).Methods("PUT")
+	r.Handle("/location/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.DeleteLocationByUserID))).Methods("DELETE")
 
-	// TODO: Stock
-	// Stock Inventory Management
-	// User can create stock adjustment, view inventory transaction, and read total stock from
-	// all location and single location. You must prevent that total stock can't be zero.
-
-	// AdStockTransaction
-	// UpdateStockTransaction
-	// GetStockTransaction
-	// GetTotalStockTransactionByLocation
-	// GetTotalStockTransactions
+	// TODO:
+	// Adjust Stock
+	r.Handle("/stock-transactions", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.CreateStockTransaction))).Methods("POST")
+	// View Transaction
+	r.Handle("/stock-transactions", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetStockTransactions))).Methods("GET")
+	// View Transaction by ID
+	r.Handle("/stock-transactions/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetStockTransactionByID))).Methods("POST")
+	// Total Stock All Location
+	r.Handle("/total-stocks", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditLocationByUserID))).Methods("GET")
+	// Total Stock By Location
+	r.Handle("/total-stock/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditLocationByUserID))).Methods("GET")
 
 	// Run Server
 	srv := &http.Server{

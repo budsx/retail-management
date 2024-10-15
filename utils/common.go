@@ -21,8 +21,10 @@ func OnShutdown(srv *http.Server) {
 
 	log.Println("Shutting down server...")
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Println("Server forced to shutdown: %v", err)
+		log.Println("Server forced to shutdown:", err.Error())
 	} else {
 		log.Println("Server gracefully stopped")
 	}
 }
+
+
