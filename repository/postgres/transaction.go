@@ -62,6 +62,53 @@ func (rw *dbReadWriter) GetStockTransactionByID(ctx context.Context, transaction
 	if err != nil {
 		return transaction, err
 	}
-	
+
 	return transaction, nil
+}
+
+func (rw *dbReadWriter) GetTotalStocks(ctx context.Context) ([]model.ProductStock, error) {
+	query := `SELECT product_id, SUM(quantity) as total_stock
+	          FROM trx_stock
+	          GROUP BY product_id`
+
+	rows, err := rw.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var totalStock []model.ProductStock
+	for rows.Next() {
+		var productStock model.ProductStock
+		err := rows.Scan(&productStock.ProductID, &productStock.TotalStock)
+		if err != nil {
+			return nil, err
+		}
+		totalStock = append(totalStock, productStock)
+	}
+	return totalStock, nil
+}
+
+func (rw *dbReadWriter) GetTotalStockByLocation(ctx context.Context, locationID int64) ([]model.ProductStock, error) {
+	query := `SELECT product_id, SUM(quantity) as total_stock
+	          FROM trx_stock
+	          WHERE warehouse_id = $1
+	          GROUP BY product_id`
+
+	rows, err := rw.db.QueryContext(ctx, query, locationID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var totalStock []model.ProductStock
+	for rows.Next() {
+		var productStock model.ProductStock
+		err := rows.Scan(&productStock.ProductID, &productStock.TotalStock)
+		if err != nil {
+			return nil, err
+		}
+		totalStock = append(totalStock, productStock)
+	}
+	return totalStock, nil
 }

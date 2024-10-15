@@ -27,6 +27,8 @@ type RetailManagementService interface {
 	CreateStockTransaction(ctx context.Context, transaction model.StockTransaction) error
 	GetStockTransactions(context.Context) ([]model.StockTransaction, error)
 	GetStockTransactionByID(context.Context, int64) (model.StockTransaction, error)
+	GetTotalStocks(context.Context) ([]model.ProductStock, error)
+	GetTotalStockByLocation(ctx context.Context, locationID int64) ([]model.ProductStock, error) 
 }
 
 type Service struct {

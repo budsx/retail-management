@@ -67,7 +67,6 @@ func main() {
 	r.Handle("/location/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditLocationByUserID))).Methods("PUT")
 	r.Handle("/location/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.DeleteLocationByUserID))).Methods("DELETE")
 
-	// TODO:
 	// Adjust Stock
 	r.Handle("/stock-transactions", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.CreateStockTransaction))).Methods("POST")
 	// View Transaction
@@ -75,9 +74,9 @@ func main() {
 	// View Transaction by ID
 	r.Handle("/stock-transactions/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetStockTransactionByID))).Methods("POST")
 	// Total Stock All Location
-	r.Handle("/total-stocks", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditLocationByUserID))).Methods("GET")
+	r.Handle("/total-stocks", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetTotalStocks))).Methods("GET")
 	// Total Stock By Location
-	r.Handle("/total-stock/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditLocationByUserID))).Methods("GET")
+	r.Handle("/total-stock/{location_id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetTotalStockByLocation))).Methods("GET")
 
 	// Run Server
 	srv := &http.Server{
