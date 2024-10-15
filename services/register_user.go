@@ -9,8 +9,8 @@ import (
 )
 
 func (svc *Service) RegisterUser(ctx context.Context, user model.User) error {
-	svc.logger.Info(fmt.Sprintf("[REQUEST] Registering user: %+v", user))
-	
+	svc.logger.Info(fmt.Sprintf("[REQUEST] Registering user: %+v", user.Username))
+
 	hashedPassword, err := utils.HashPassword(user.Password)
 	if err != nil {
 		svc.logger.Error(fmt.Sprintf("[ERROR] Failed to hash password: %s", err.Error()))

@@ -1,6 +1,6 @@
 # Retail Management Service
 
-Retail Management Service built for the Jubelio Assessment Test.
+Retail Management Service
 
 ## Table of Contents
 - [Features](#features)

@@ -44,7 +44,6 @@ func main() {
 	// Health Check & Readiness
 	r.HandleFunc("/health", controller.Health)
 	r.HandleFunc("/readiness", func(w http.ResponseWriter, r *http.Request) {
-		// TODO:
 	})
 
 	// User
@@ -73,7 +72,6 @@ func main() {
 	// User can create stock adjustment, view inventory transaction, and read total stock from
 	// all location and single location. You must prevent that total stock can't be zero.
 
-	// Stock Adjustment -> Create / Update trx_stok
 	// AdStockTransaction
 	// UpdateStockTransaction
 	// GetStockTransaction
