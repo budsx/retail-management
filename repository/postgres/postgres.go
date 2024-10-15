@@ -20,6 +20,17 @@ type PostgresRepository interface {
 	// User
 	RegisterUser(context.Context, model.User) error
 	GetUserByUsername(ctx context.Context, username string) (model.User, error)
+
+	// Location & Warehouse
+	WriteLocation(ctx context.Context, location model.Location) error
+	UpdateLocation(ctx context.Context, location model.Location) error
+	ReadLocationByID(ctx context.Context, locationID int64) (model.Location, error)
+	DeleteLocationByUserID(ctx context.Context, userID, locationID int64) error
+	WriteWarehouse(ctx context.Context, warehouse model.Warehouse) error
+	UpdateWarehouse(ctx context.Context, warehouse model.Warehouse) error
+	ReadWarehousesByUserID(ctx context.Context, userID int64) ([]model.Warehouse, error)
+	ReadWarehouseByID(ctx context.Context, warehouseID int64) (model.Warehouse, error)
+
 	io.Closer
 }
 

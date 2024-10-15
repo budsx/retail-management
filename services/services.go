@@ -16,6 +16,13 @@ type RetailManagementService interface {
 
 	RegisterUser(context.Context, model.User) error
 	ValidateUser(context.Context, model.Credentials) (model.User, error)
+
+	AddWarehouseByUserID(ctx context.Context, warehouse model.Warehouse) error
+	EditWarehouseByUserID(ctx context.Context, warehouse model.Warehouse) error
+	GetWarehouseByUserID(ctx context.Context) ([]model.Warehouse, error)
+	AddLocation(ctx context.Context, location model.Location) error
+	EditLocationByUserID(ctx context.Context, location model.Location) error
+	DeleteLocationByUserID(ctx context.Context, locationID int64) error
 }
 
 type Service struct {

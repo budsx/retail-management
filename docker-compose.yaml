@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: retail-management
+    depends_on:
+      - db
+    ports:
+      - "9999:9999"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=jubelio
+      - DB_PASSWORD=jubeliotest
+      - DB_NAME=retails
+    networks:
+      - mynetwork
+
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: jubelio
+      POSTGRES_PASSWORD: jubeliotest
+      POSTGRES_DB: retails
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+volumes:
+  postgres_data:
+
+networks:
+  mynetwork:
