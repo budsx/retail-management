@@ -8,12 +8,11 @@ import (
 	"github.com/budsx/retail-management/utils"
 )
 
-type contextKey string
+type ContextKey string
 
 const (
-	// Definisikan kunci-kunci yang digunakan
-	ContextKeyUserID   = contextKey("user_id")
-	ContextKeyUsername = contextKey("username")
+	ContextKeyUserID   = ContextKey("user_id")
+	ContextKeyUsername = ContextKey("username")
 )
 
 

@@ -5,13 +5,13 @@ import (
 )
 
 type User struct {
-	UserID       int       `json:"user_id"`
-	Username     string    `json:"username" validate:"required"`
-	PasswordHash string    `json:"password_hash" validate:"required"`
-	CreatedAt    time.Time `json:"created_at"`
+	UserID    int       `json:"user_id"`
+	Username  string    `json:"username" validate:"required"`
+	Password  string    `json:"password" validate:"required"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 type Credentials struct {
-    Username string `json:"username" validate:"required"`
-    Password string `json:"password" validate:"required"`
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
 }

@@ -10,7 +10,7 @@ func (rw *dbReadWriter) RegisterUser(ctx context.Context, user model.User) error
 	query := `INSERT INTO mst_users (username, password_hash, created_at) 
               VALUES ($1, $2, CURRENT_TIMESTAMP)`
 
-	_, err := rw.db.ExecContext(ctx, query, user.Username, user.PasswordHash)
+	_, err := rw.db.ExecContext(ctx, query, user.Username, user.Password)
 	if err != nil {
 		return err
 	}
@@ -28,7 +28,7 @@ func (rw *dbReadWriter) GetUserByUsername(ctx context.Context, username string) 
 	err := rw.db.QueryRowContext(ctx, query, username).Scan(
 		&user.UserID,
 		&user.Username,
-		&user.PasswordHash,
+		&user.Password,
 		&user.CreatedAt,
 	)
 	if err != nil {

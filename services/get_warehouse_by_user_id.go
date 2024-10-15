@@ -9,9 +9,9 @@ import (
 )
 
 func (svc *Service) GetWarehouseByUserID(ctx context.Context) ([]model.Warehouse, error) {
-	svc.logger.Info("[REQUEST] Get warehouse by user ID")
-
 	userID := ctx.Value(middleware.ContextKeyUserID).(int64)
+
+	svc.logger.Info(fmt.Sprintf("[REQUEST] Get warehouse by user ID - %d", userID))
 
 	warehouses, err := svc.repo.Postgres.ReadWarehousesByUserID(ctx, userID)
 	if err != nil {

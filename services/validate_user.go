@@ -16,7 +16,7 @@ func (svc *Service) ValidateUser(ctx context.Context, req model.Credentials) (mo
 		return model.User{}, fmt.Errorf("invalid username or password")
 	}
 
-	if !utils.CheckPasswordHash(req.Password, user.PasswordHash) {
+	if !utils.CheckPasswordHash(req.Password, user.Password) {
 		svc.logger.Error("[ERROR] Invalid password")
 		return model.User{}, fmt.Errorf("invalid username or password")
 	}
