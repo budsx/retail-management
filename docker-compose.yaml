@@ -20,7 +20,7 @@ services:
 
   db:
     image: postgres:13
-    container_name: postgres_container
+    container_name: postgres_test
     restart: always
     environment:
       POSTGRES_USER: jubelio

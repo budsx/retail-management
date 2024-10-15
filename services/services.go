@@ -9,6 +9,7 @@ import (
 )
 
 type RetailManagementService interface {
+	Readiness(context.Context) error
 	GetProductByID(context.Context, int64) (model.Product, error)
 	GetProducts(context.Context, model.Pagination) ([]model.Product, error)
 	AddProduct(context.Context, model.Product) error

@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"time"
@@ -34,4 +35,8 @@ func (rw *dbReadWriter) Close() error {
 		rw.db = nil
 	}
 	return nil
+}
+
+func (rw *dbReadWriter) PingContex(ctx context.Context) error {
+	return rw.db.PingContext(ctx)
 }

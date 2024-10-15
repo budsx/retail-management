@@ -2,6 +2,7 @@
 FROM golang:1.20.7-alpine as builder
 
 WORKDIR /app
+
 COPY ./config/config.yml /app/config/config.yml
 COPY . .
 
@@ -11,5 +12,7 @@ RUN ls -all && pwd
 FROM alpine:latest
 
 COPY --from=builder /app/RetailManagement /RetailManagement
+COPY --from=builder /app/config/config.yml /config/config.yml
 
 ENTRYPOINT ["/RetailManagement"]
+EXPOSE 9999

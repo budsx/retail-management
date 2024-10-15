@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -42,9 +43,8 @@ func main() {
 	r := mux.NewRouter()
 
 	// Health Check & Readiness
-	r.HandleFunc("/health", controller.Health)
-	r.HandleFunc("/readiness", func(w http.ResponseWriter, r *http.Request) {
-	})
+	r.HandleFunc("/health", controller.Health).Methods("GET")
+	r.HandleFunc("/readiness", controller.Readiness).Methods("GET")
 
 	// User
 	r.HandleFunc("/user/register", controller.RegisterUser).Methods("POST")
@@ -90,7 +90,7 @@ func main() {
 			logger.Info("HTTP server error: %s", err)
 		}
 	}()
-	logger.Info("Server started ...")
+	logger.Info(fmt.Sprintf("Server started on port %s", conf.Port))
 
 	// Graceful Shutdown
 	utils.OnShutdown(srv)
