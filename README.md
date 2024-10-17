@@ -3,13 +3,7 @@
 Retail Management Service
 
 ## Table of Contents
-- [Features](#features)
 - [Tech Stack](#tech-stack)
-
-## Features
-- **User Service**: Register, Login, Validate Token.
-- **Product Management**: Easily add, update, and manage products.
-- **Inventory Management**: Track stock levels and manage supplies efficiently.
 
 ## Tech Stack
 - **Backend**: Go (Golang)
@@ -20,5 +14,8 @@ Retail Management Service
 - [√] Handle Log
 - [√] Health Check / Readiness
 - [√] Audit Trail
-- [ ] Migration
+- [√] Migration
 
+# Run Service and Migration in Local
+
+- make docker-up

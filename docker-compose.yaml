@@ -6,15 +6,15 @@ services:
     container_name: retail-management
     depends_on:
       - db
+      - migrate
     ports:
-      - "9999:9999"
+      - "8080:8080"
     environment:
-      - DB_HOST=localhost
+      - DB_HOST=db
       - DB_PORT=5432
       - DB_USER=jubelio
       - DB_PASS=jubeliotest
       - DB_NAME=retails
-      - HTTP_PORT=9999
     networks:
       - mynetwork
 
@@ -32,9 +32,24 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - mynetwork
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jubelio -d retails -h 127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-volumes:
-  postgres_data:
+  migrate:
+    image: migrate/migrate
+    depends_on:
+      - db
+    volumes:
+      - ./migrations/:/migrations
+    command: migrate -path migrations -database "postgres://jubelio:jubeliotest@db:5432/retails?sslmode=disable" up 
+    networks:
+      - mynetwork
 
 networks:
   mynetwork:
+
+volumes:
+  postgres_data:

@@ -78,10 +78,11 @@ func main() {
 	// Total Stock By Location
 	r.Handle("/total-stock/{location_id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetTotalStockByLocation))).Methods("GET")
 
+	log.Println(conf.Port)
 	// Run Server
 	srv := &http.Server{
 		Handler:      r,
-		Addr:         conf.Port,
+		Addr:         fmt.Sprintf(":%s", conf.Port),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
@@ -90,6 +91,7 @@ func main() {
 			logger.Info("HTTP server error: %s", err)
 		}
 	}()
+
 	logger.Info(fmt.Sprintf("Server started on port %s", conf.Port))
 
 	// Graceful Shutdown
