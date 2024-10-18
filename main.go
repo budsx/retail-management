@@ -49,36 +49,35 @@ func main() {
 	// User
 	r.HandleFunc("/user/register", controller.RegisterUser).Methods("POST")
 	r.HandleFunc("/user/login", controller.Login).Methods("POST")
-	r.Handle("/user/validate", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.ValidateToken))).Methods("GET")
+
+	// Private Route
+	private := r.PathPrefix("/v1").Subrouter()
+	private.Use(middleware.TokenValidationMiddleware)
+	private.HandleFunc("/user/validate", controller.ValidateToken).Methods("GET")
 
 	// Product
-	r.Handle("/product/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetProductByID))).Methods("GET")
-	r.Handle("/product", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.AddProduct))).Methods("POST")
-	r.Handle("/product/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditProduct))).Methods("PUT")
-	r.Handle("/products", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetProducts))).Methods("GET")
+	private.HandleFunc("/product/{id}", controller.GetProductByID).Methods("GET")
+	private.HandleFunc("/product", controller.AddProduct).Methods("POST")
+	private.HandleFunc("/product/{id}", controller.EditProduct).Methods("PUT")
+	private.HandleFunc("/products", controller.GetProducts).Methods("GET")
 
-	// TODO: Warehouse
-	r.Handle("/warehouse", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.AddWarehouseByUserID))).Methods("POST")
-	r.Handle("/warehouse/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditWarehouseByUserID))).Methods("PUT")
-	r.Handle("/warehouses", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetWarehousesByUserID))).Methods("GET")
+	// Warehouse
+	private.HandleFunc("/warehouse", controller.AddWarehouseByUserID).Methods("POST")
+	private.HandleFunc("/warehouse/{id}", controller.EditWarehouseByUserID).Methods("PUT")
+	private.HandleFunc("/warehouses", controller.GetWarehousesByUserID).Methods("GET")
 
-	// TODO: Location
-	r.Handle("/location", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.AddLocation))).Methods("POST")
-	r.Handle("/location/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.EditLocationByUserID))).Methods("PUT")
-	r.Handle("/location/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.DeleteLocationByUserID))).Methods("DELETE")
+	// Location
+	private.HandleFunc("/location", controller.AddLocation).Methods("POST")
+	private.HandleFunc("/location/{id}", controller.EditLocationByUserID).Methods("PUT")
+	private.HandleFunc("/location/{id}", controller.DeleteLocationByUserID).Methods("DELETE")
 
-	// Adjust Stock
-	r.Handle("/stock-transactions", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.CreateStockTransaction))).Methods("POST")
-	// View Transaction
-	r.Handle("/stock-transactions", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetStockTransactions))).Methods("GET")
-	// View Transaction by ID
-	r.Handle("/stock-transactions/{id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetStockTransactionByID))).Methods("POST")
-	// Total Stock All Location
-	r.Handle("/total-stocks", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetTotalStocks))).Methods("GET")
-	// Total Stock By Location
-	r.Handle("/total-stock/{location_id}", middleware.TokenValidationMiddleware(http.HandlerFunc(controller.GetTotalStockByLocation))).Methods("GET")
+	// Stock
+	private.HandleFunc("/stock-transactions", controller.CreateStockTransaction).Methods("POST")
+	private.HandleFunc("/stock-transactions", controller.GetStockTransactions).Methods("GET")
+	private.HandleFunc("/stock-transactions/{id}", controller.GetStockTransactionByID).Methods("POST")
+	private.HandleFunc("/total-stocks", controller.GetTotalStocks).Methods("GET")
+	private.HandleFunc("/total-stock/{location_id}", controller.GetTotalStockByLocation).Methods("GET")
 
-	log.Println(conf.Port)
 	// Run Server
 	srv := &http.Server{
 		Handler:      r,
