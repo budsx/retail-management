@@ -17,7 +17,7 @@ func (c *Controller) AddWarehouseByUserID(w http.ResponseWriter, r *http.Request
 
 	err = c.service.AddWarehouseByUserID(r.Context(), warehouse)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

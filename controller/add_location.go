@@ -17,7 +17,7 @@ func (c *Controller) AddLocation(w http.ResponseWriter, r *http.Request) {
 
 	err = c.service.AddLocation(r.Context(), location)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

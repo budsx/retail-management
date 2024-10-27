@@ -23,7 +23,7 @@ func (c *Controller) DeleteLocationByUserID(w http.ResponseWriter, r *http.Reque
 
 	err = c.service.DeleteLocationByUserID(r.Context(), locationID)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

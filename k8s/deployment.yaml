@@ -16,16 +16,16 @@ spec:
       - name: retail-management
         image: registry.digitalocean.com/do-container/retail-management:latest
         ports:
-        - containerPort: 9999
+        - containerPort: 8080
         livenessProbe:
           httpGet:
             path: /health
-            port: 9999
+            port: 8080
           initialDelaySeconds: 5
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /readiness
-            port: 9999
+            port: 8080
           initialDelaySeconds: 5
           periodSeconds: 10

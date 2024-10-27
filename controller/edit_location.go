@@ -33,7 +33,7 @@ func (c *Controller) EditLocationByUserID(w http.ResponseWriter, r *http.Request
 	location.LocationID = locationID
 	err = c.service.EditLocationByUserID(r.Context(), location)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

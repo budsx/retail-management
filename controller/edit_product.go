@@ -33,7 +33,7 @@ func (c *Controller) EditProduct(w http.ResponseWriter, r *http.Request) {
 	updatedProduct.ProductID = productID
 	err = c.service.EditProduct(r.Context(), updatedProduct)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 	sendSuccessResponse(w, http.StatusOK, "Product updated successfully")

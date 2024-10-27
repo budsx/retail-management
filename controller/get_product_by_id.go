@@ -17,13 +17,13 @@ func (c *Controller) GetProductByID(w http.ResponseWriter, r *http.Request) {
 
 	productID, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
-		sendErrorResponse(w, http.StatusBadRequest, err.Error())
+		sendErrorResponse(w, http.StatusBadRequest, "Internal Server Error")
 		return
 	}
 
 	product, err := c.service.GetProductByID(r.Context(), productID)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

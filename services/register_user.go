@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/budsx/retail-management/model"
@@ -10,6 +11,11 @@ import (
 
 func (svc *Service) RegisterUser(ctx context.Context, user model.User) error {
 	svc.logger.Info(fmt.Sprintf("[REQUEST] Registering user: %+v", user.Username))
+
+	if user.Username == "" || user.Password == "" {
+		svc.logger.Error("Bad Request")
+		return errors.New("bad request")
+	}
 
 	hashedPassword, err := utils.HashPassword(user.Password)
 	if err != nil {

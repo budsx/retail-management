@@ -18,7 +18,7 @@ func (c *Controller) GetTotalStockByLocation(w http.ResponseWriter, r *http.Requ
 
 	totalStock, err := c.service.GetTotalStockByLocation(r.Context(), locationID)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

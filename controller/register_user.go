@@ -17,7 +17,7 @@ func (c *Controller) RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	err = c.service.RegisterUser(r.Context(), user)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Error")
 		return
 	}
 

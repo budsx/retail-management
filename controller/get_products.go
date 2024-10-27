@@ -24,7 +24,7 @@ func (c *Controller) GetProducts(w http.ResponseWriter, r *http.Request) {
 
 	products, err := c.service.GetProducts(r.Context(), pagination)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 	sendSuccessResponse(w, http.StatusOK, products)

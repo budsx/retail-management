@@ -17,7 +17,7 @@ func (c *Controller) AddProduct(w http.ResponseWriter, r *http.Request) {
 
 	err = c.service.AddProduct(r.Context(), product)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

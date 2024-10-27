@@ -33,7 +33,7 @@ func (c *Controller) EditWarehouseByUserID(w http.ResponseWriter, r *http.Reques
 	warehouse.WarehouseID = warehouseID
 	err = c.service.EditWarehouseByUserID(r.Context(), warehouse)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

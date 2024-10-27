@@ -24,7 +24,7 @@ func (c *Controller) CreateStockTransaction(w http.ResponseWriter, r *http.Reque
 	stockTransaction.CreatedBy = userID
 	err = c.service.CreateStockTransaction(r.Context(), stockTransaction)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

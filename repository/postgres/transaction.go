@@ -10,16 +10,29 @@ func (rw *dbReadWriter) CreateStockTransaction(ctx context.Context, transaction 
 	stockAdjustment := `INSERT INTO trx_stock (product_id, warehouse_id, transaction_type, quantity, created_by) 
               VALUES ($1, $2, $3, $4, $5)`
 
-	_, err := rw.db.ExecContext(ctx, stockAdjustment, transaction.ProductID, transaction.WarehouseID, transaction.TransactionType, transaction.Quantity, transaction.CreatedBy)
+	updateStock := `UPDATE mst_stock SET stock_quantity = $1 WHERE product_id = $2 AND warehouse_id = $3`
+
+	tx, err := rw.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(stockAdjustment, transaction.ProductID, transaction.WarehouseID, transaction.TransactionType, transaction.Quantity, transaction.CreatedBy)
 	if err != nil {
 		return err
 	}
 
-	return nil
+	_, err = tx.Exec(updateStock, transaction.Quantity, transaction.ProductID, transaction.WarehouseID)
+	if err != nil {
+		return err
+	}
+
+	return tx.Commit()
 }
 
 func (rw *dbReadWriter) GetTotalStockByProductAndWarehouse(ctx context.Context, productID, warehouseID int64) (int64, error) {
-	selectTotalStock := `SELECT SUM(quantity) FROM trx_stock WHERE product_id = $1 AND warehouse_id = $2`
+	selectTotalStock := `SELECT stock_quantity FROM mst_stock WHERE product_id = $1 AND warehouse_id = $2`
 
 	var totalStock int64
 	err := rw.db.QueryRowContext(ctx, selectTotalStock, productID, warehouseID).Scan(&totalStock)

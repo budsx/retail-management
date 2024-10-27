@@ -18,7 +18,7 @@ func (c *Controller) GetStockTransactionByID(w http.ResponseWriter, r *http.Requ
 
 	transaction, err := c.service.GetStockTransactionByID(r.Context(), transactionID)
 	if err != nil {
-		sendErrorResponse(w, http.StatusInternalServerError, err.Error())
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 

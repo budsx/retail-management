@@ -56,7 +56,7 @@ func main() {
 	private.HandleFunc("/user/validate", controller.ValidateToken).Methods("GET")
 
 	// Product
-	private.HandleFunc("/product/{id}", controller.GetProductByID).Methods("GET")
+	private.HandleFunc("/product/", controller.GetProductByID).Methods("GET")
 	private.HandleFunc("/product", controller.AddProduct).Methods("POST")
 	private.HandleFunc("/product/{id}", controller.EditProduct).Methods("PUT")
 	private.HandleFunc("/products", controller.GetProducts).Methods("GET")
@@ -74,7 +74,7 @@ func main() {
 	// Stock
 	private.HandleFunc("/stock-transactions", controller.CreateStockTransaction).Methods("POST")
 	private.HandleFunc("/stock-transactions", controller.GetStockTransactions).Methods("GET")
-	private.HandleFunc("/stock-transactions/{id}", controller.GetStockTransactionByID).Methods("POST")
+	private.HandleFunc("/stock-transactions/{id}", controller.GetStockTransactionByID).Methods("GET")
 	private.HandleFunc("/total-stocks", controller.GetTotalStocks).Methods("GET")
 	private.HandleFunc("/total-stock/{location_id}", controller.GetTotalStockByLocation).Methods("GET")
 
