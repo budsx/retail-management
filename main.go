@@ -44,7 +44,6 @@ func main() {
 
 	// Health Check & Readiness
 	r.HandleFunc("/health", controller.Health).Methods("GET")
-	r.HandleFunc("/readiness", controller.Readiness).Methods("GET")
 
 	// User
 	r.HandleFunc("/user/register", controller.RegisterUser).Methods("POST")
@@ -56,7 +55,7 @@ func main() {
 	private.HandleFunc("/user/validate", controller.ValidateToken).Methods("GET")
 
 	// Product
-	private.HandleFunc("/product/", controller.GetProductByID).Methods("GET")
+	private.HandleFunc("/product/{id}", controller.GetProductByID).Methods("GET")
 	private.HandleFunc("/product", controller.AddProduct).Methods("POST")
 	private.HandleFunc("/product/{id}", controller.EditProduct).Methods("PUT")
 	private.HandleFunc("/products", controller.GetProducts).Methods("GET")

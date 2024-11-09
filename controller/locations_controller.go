@@ -9,6 +9,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func (c *Controller) AddLocation(w http.ResponseWriter, r *http.Request) {
+	var location model.Location
+	err := json.NewDecoder(r.Body).Decode(&location)
+	if err != nil {
+		sendErrorResponse(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+
+	err = c.service.AddLocation(r.Context(), location)
+	if err != nil {
+		sendErrorResponse(w, http.StatusInternalServerError, "Internal Server Error")
+		return
+	}
+
+	sendSuccessResponse(w, http.StatusCreated, "Location added successfully")
+}
+
 func (c *Controller) EditLocationByUserID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	idStr, ok := vars["id"]

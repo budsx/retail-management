@@ -13,6 +13,8 @@ type Product struct {
 }
 
 type ProductStock struct {
-	ProductID  int64 `json:"product_id"`
-	TotalStock int64 `json:"total_stock"`
+	ProductID   int64  `json:"product_id"`
+	TotalStock  int64  `json:"total_stock"`
+	ProductName string `json:"product_name"`
+	SKU         string `json:"sku"`
 }

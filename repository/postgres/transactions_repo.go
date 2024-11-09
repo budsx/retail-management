@@ -80,9 +80,11 @@ func (rw *dbReadWriter) GetStockTransactionByID(ctx context.Context, transaction
 }
 
 func (rw *dbReadWriter) GetTotalStocks(ctx context.Context) ([]model.ProductStock, error) {
-	query := `SELECT product_id, SUM(quantity) as total_stock
-	          FROM trx_stock
-	          GROUP BY product_id`
+	query := `SELECT m.product_id, SUM(quantity) as total_stock, m.product_name, m.sku
+	          FROM trx_stock as t
+			  LEFT JOIN mst_product as m
+			  ON t.product_id = m.product_id
+	          GROUP BY m.product_id`
 
 	rows, err := rw.db.QueryContext(ctx, query)
 	if err != nil {
@@ -93,7 +95,7 @@ func (rw *dbReadWriter) GetTotalStocks(ctx context.Context) ([]model.ProductStoc
 	var totalStock []model.ProductStock
 	for rows.Next() {
 		var productStock model.ProductStock
-		err := rows.Scan(&productStock.ProductID, &productStock.TotalStock)
+		err := rows.Scan(&productStock.ProductID, &productStock.TotalStock, &productStock.ProductName, &productStock.SKU)
 		if err != nil {
 			return nil, err
 		}

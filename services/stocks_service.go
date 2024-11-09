@@ -18,3 +18,16 @@ func (svc *Service) GetTotalStockByLocation(ctx context.Context, locationID int6
 	}
 	return totalStock, nil
 }
+
+func (svc *Service) GetTotalStocks(ctx context.Context) ([]model.ProductStock, error) {
+	user := middleware.GetUserInfoByContext(ctx)
+	svc.logger.Info(fmt.Sprintf("[REQUEST] GetTotalStocks - %+v", user))
+
+	totalStock, err := svc.repo.Postgres.GetTotalStocks(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve total stock from all locations: %w", err)
+	}
+
+	svc.logger.Info(fmt.Sprintf("[RESPONSE] %+v", totalStock))
+	return totalStock, nil
+}
