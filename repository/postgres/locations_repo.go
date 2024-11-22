@@ -100,7 +100,7 @@ func (rw *dbReadWriter) DeleteLocationByUserID(ctx context.Context, userID, loca
 }
 
 func (rw *dbReadWriter) ReadWarehousesByUserID(ctx context.Context, userID int64) ([]model.Warehouse, error) {
-	var warehouses []model.Warehouse
+	warehouses := make([]model.Warehouse, 0)
 
 	selectWarehouseByUser := `SELECT warehouse_id, warehouse_name, user_id, created_at 
 	          FROM mst_warehouse 

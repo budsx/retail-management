@@ -45,7 +45,7 @@ func (rw *dbReadWriter) ReadProductsWithPagination(ctx context.Context, limit in
 	}
 	defer rows.Close()
 
-	var products []model.Product
+	products := []model.Product{}
 
 	for rows.Next() {
 		var product model.Product
@@ -69,7 +69,6 @@ func (rw *dbReadWriter) ReadProductsWithPagination(ctx context.Context, limit in
 
 	return products, nil
 }
-
 
 func (rw *dbReadWriter) UpdateProductByID(ctx context.Context, product model.Product) error {
 	updateProduct := `UPDATE mst_product 

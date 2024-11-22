@@ -15,7 +15,8 @@ func (svc *Service) AddWarehouseByUserID(ctx context.Context, warehouse model.Wa
 
 	err := svc.repo.Postgres.WriteWarehouse(ctx, warehouse)
 	if err != nil {
-		return err
+		svc.logger.Info(fmt.Sprintf("[ERROR] Failed to add warehouse: %s", err.Error()))
+		return fmt.Errorf("failed to add warehouse: %w", err)
 	}
 
 	svc.logger.Info("[RESPONSE] Product added successfully")
@@ -30,7 +31,7 @@ func (svc *Service) GetWarehouseByUserID(ctx context.Context) ([]model.Warehouse
 	warehouses, err := svc.repo.Postgres.ReadWarehousesByUserID(ctx, user.UserID)
 	if err != nil {
 		svc.logger.Error(fmt.Sprintf("[ERROR] Failed to get warehouses: %s", err.Error()))
-		return nil, err
+		return nil, fmt.Errorf("failed to get warehouses: %w", err)
 	}
 
 	svc.logger.Info(fmt.Sprintf("[RESPONSE] Warehouses retrieved successfully: %+v", warehouses))
@@ -51,7 +52,7 @@ func (svc *Service) EditWarehouseByUserID(ctx context.Context, warehouse model.W
 	err = svc.repo.Postgres.UpdateWarehouse(ctx, warehouse)
 	if err != nil {
 		svc.logger.Error(fmt.Sprintf("[ERROR] Failed to update warehouse: %s", err.Error()))
-		return err
+		return fmt.Errorf("failed to update warehouse: %w", err)
 	}
 
 	svc.logger.Info("[RESPONSE] Warehouse updated successfully")
@@ -70,7 +71,7 @@ func (svc *Service) GetStockTransactions(ctx context.Context) ([]model.StockTran
 	transactions, err := svc.repo.Postgres.GetStockTransactions(ctx, user.UserID)
 	if err != nil {
 		svc.logger.Info(err.Error())
-		return []model.StockTransaction{}, err
+		return []model.StockTransaction{}, fmt.Errorf("failed to get stock transactions: %w", err)
 	}
 
 	svc.logger.Info(fmt.Sprintf("[RESPONSE] %+v", transactions))

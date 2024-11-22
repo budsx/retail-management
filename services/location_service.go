@@ -22,7 +22,7 @@ func (svc *Service) AddLocation(ctx context.Context, location model.Location) er
 	err = svc.repo.Postgres.WriteLocation(ctx, location)
 	if err != nil {
 		svc.logger.Error(fmt.Sprintf("[ERROR] Failed to add location: %s", err.Error()))
-		return err
+		return fmt.Errorf("failed to add location: %w", err)
 	}
 
 	svc.logger.Info("[RESPONSE] Location added successfully")
@@ -49,7 +49,7 @@ func (svc *Service) DeleteLocationByUserID(ctx context.Context, locationID int64
 	err = svc.repo.Postgres.DeleteLocationByUserID(ctx, userID, locationID)
 	if err != nil {
 		svc.logger.Error(fmt.Sprintf("[ERROR] Failed to delete location: %s", err.Error()))
-		return err
+		return fmt.Errorf("failed to delete location: %w", err)
 	}
 
 	svc.logger.Info("[RESPONSE] Location deleted successfully")

@@ -116,7 +116,7 @@ func (rw *dbReadWriter) GetTotalStockByLocation(ctx context.Context, locationID 
 	}
 	defer rows.Close()
 
-	var totalStock []model.ProductStock
+	totalStock := []model.ProductStock{}
 	for rows.Next() {
 		var productStock model.ProductStock
 		err := rows.Scan(&productStock.ProductID, &productStock.TotalStock)

@@ -13,7 +13,7 @@ func (svc *Service) AddProduct(ctx context.Context, product model.Product) error
 	err := svc.repo.Postgres.WriteProduct(ctx, product)
 	if err != nil {
 		svc.logger.Info(err.Error())
-		return err
+		return fmt.Errorf("failed to add product: %w", err)
 	}
 
 	svc.logger.Info("[RESPONSE] Product added successfully")
@@ -26,7 +26,7 @@ func (svc *Service) EditProduct(ctx context.Context, updatedProduct model.Produc
 	err := svc.repo.Postgres.UpdateProductByID(ctx, updatedProduct)
 	if err != nil {
 		svc.logger.Info(err.Error())
-		return err
+		return fmt.Errorf("failed to update product: %w", err)
 	}
 
 	svc.logger.Info("[RESPONSE] Product updated successfully")
@@ -39,7 +39,7 @@ func (svc *Service) GetProductByID(ctx context.Context, req int64) (model.Produc
 	product, err := svc.repo.Postgres.ReadProductByID(ctx, req)
 	if err != nil {
 		svc.logger.Info(err.Error())
-		return model.Product{}, err
+		return model.Product{}, fmt.Errorf("failed to get product: %w", err)
 	}
 
 	svc.logger.Info(fmt.Sprintf("[RESPONSE] %+v", product))
@@ -54,7 +54,7 @@ func (svc *Service) GetProducts(ctx context.Context, pagination model.Pagination
 	products, err := svc.repo.Postgres.ReadProductsWithPagination(ctx, pagination.Limit, offset)
 	if err != nil {
 		svc.logger.Info(err.Error())
-		return nil, err
+		return nil, fmt.Errorf("failed to get products: %w", err)	
 	}
 
 	svc.logger.Info(fmt.Sprintf("[RESPONSE] %+v", products))
